@@ -31,11 +31,15 @@ public class Task {
             PrintWriter outFile = new PrintWriter(new FileWriter(Main.fileName, true));
             System.out.println("Enter an item: ");
             String item = input.nextLine();
+            System.out.println("Enter description");
+            String description = input.nextLine();
             outFile.println(item);
+            outFile.println(description);
             outFile.close();
         } catch (IOException ioe) {
             System.out.println("Can't access file.");
         }
+
     }
 
     static void removeItem() {
