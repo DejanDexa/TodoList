@@ -16,7 +16,6 @@ public class Task {
             while (inFile.hasNextLine()) {
                 line = inFile.nextLine();
                 System.out.println(number + " " + line);
-                //System.out.println(line);
                 ++number;
             }
             inFile.close();
