@@ -40,10 +40,10 @@ public class Main {
         int choice;
         Scanner input = new Scanner(System.in);
         System.out.println("\n>>>  Main Menu  <<<");
-        System.out.println("0. Exit the program");
         System.out.println("1. Display to-do list");
         System.out.println("2. Add item to to-do list");
         System.out.println("3. Remove item from to-do list");
+        System.out.println("0. Exit the program");
         System.out.println();
         System.out.println("Enter a choice: ");
         choice = input.nextInt();
