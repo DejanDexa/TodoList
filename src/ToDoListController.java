@@ -9,7 +9,7 @@ import java.util.Scanner;
 import Model.Task;
 import Model.ToDoList;
 
-public class ToDoListController {
+public class ToDoListController implements Serializable{
     private static ToDoList myTask = new ToDoList();
     private ToDoList todoList;
     private String file;
@@ -80,7 +80,7 @@ public class ToDoListController {
     public void readFromFile(String fileLocation) {
         Path destination = Paths.get(fileLocation);
         try {
-            File file = new File(destination.toString());
+            File file = destination.toFile();
             if (file.exists()) {
                 ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
                 myTask = (ToDoList) is.readObject();
@@ -93,7 +93,7 @@ public class ToDoListController {
     }
 
     public void saveToFile(String fileName) {
-        Path destination = Paths.get(fileName).toAbsolutePath();
+        Path destination = Paths.get(fileName);
         try {
             ObjectOutputStream outputSaveToFile = new ObjectOutputStream(new FileOutputStream(destination.toString()));
             outputSaveToFile.writeObject(myTask);
