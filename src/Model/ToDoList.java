@@ -1,13 +1,20 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ToDoList {
+public class ToDoList implements Serializable {
+    /** ArrayList of Task store tasks records */
+    //private String myList;
     /** ArrayList of Task store tasks records */
     private ArrayList<Task> myTasks;
 
-    //Empty Constructor
+    /**
+     * Constractor
+     * Initialize empty ArrayList
+     */
     public ToDoList() {
+        //this.myList = myList;
         this.myTasks = new ArrayList<>();
     }
     /**
@@ -61,6 +68,13 @@ public class ToDoList {
         return -1;
     }
 
+//    public String queryTask(Task task) {
+//        if(findTask(task) >=0) {
+//            return task.getName();
+//        }
+//        return null;
+//    }
+
     public Task queryTask(String name) {
         int position = findTask(name);
         if(position >=0) {
@@ -74,7 +88,7 @@ public class ToDoList {
         for(int i=0; i<this.myTasks.size(); i++) {
             System.out.println((i+1) + "." +
                     this.myTasks.get(i).getName() + " - " +
-                    this.myTasks.get(i).getDescription() + " - " +
+                    this.myTasks.get(i).getDescription()+ " - " +
                     this.myTasks.get(i).getCategory() + " - " +
                     this.myTasks.get(i).getDueDate() + " - " +
                     this.myTasks.get(i).getDetails());
