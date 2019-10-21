@@ -1,13 +1,18 @@
 package Model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ToDoList implements Serializable {
     /** ArrayList of Task store tasks records */
     //private String myList;
     /** ArrayList of Task store tasks records */
-    private ArrayList<Task> myTasks;
+    private List<Task> myTasks;
 
     /**
      * Constractor
@@ -28,18 +33,6 @@ public class ToDoList implements Serializable {
             return false;
         }
         myTasks.add(task);
-        return true;
-    }
-
-    public boolean updateTask(Task oldTask, Task newTask) {
-        int foundPosition = findTask(oldTask);
-        if(foundPosition <0) {
-            System.out.println(oldTask.getName() +", was not found.");
-            return false;
-        }
-
-        this.myTasks.set(foundPosition, newTask);
-        System.out.println(oldTask.getName() + ", was replaced with " + newTask.getName());
         return true;
     }
 
@@ -68,13 +61,6 @@ public class ToDoList implements Serializable {
         return -1;
     }
 
-//    public String queryTask(Task task) {
-//        if(findTask(task) >=0) {
-//            return task.getName();
-//        }
-//        return null;
-//    }
-
     public Task queryTask(String name) {
         int position = findTask(name);
         if(position >=0) {
@@ -91,7 +77,37 @@ public class ToDoList implements Serializable {
                     this.myTasks.get(i).getDescription()+ " - " +
                     this.myTasks.get(i).getCategory() + " - " +
                     this.myTasks.get(i).getDueDate() + " - " +
-                    this.myTasks.get(i).getDetails());
+                    this.myTasks.get(i).getStatusToString());
         }
+    }
+
+    public Task findExistingTask(String name) {
+        return this.myTasks.stream().filter(mytask->name.equals(mytask.getName())).findAny().orElse(null);
+    }
+
+    public void changeTaskName(String oldName, String newName) {
+        this.myTasks.stream().filter(myTasks->oldName.equals(myTasks.getName()))
+                .collect(Collectors.toList()).forEach(mytask->mytask.setName(newName));
+    }
+
+    public void changeTaskDescription(String name, String newDescription){
+        this.myTasks.stream().filter(myTasks->name.equals(myTasks.getName()))
+                .collect(Collectors.toList()).forEach(mytask->mytask.setDescription(newDescription));
+    }
+
+    public void changeTaskCategory(String name, String newCategory) {
+        this.myTasks.stream().filter(myTasks->name.equals(myTasks.getName()))
+                .collect(Collectors.toList()).forEach(mytask->mytask.setCategory(newCategory));
+    }
+
+    public void changeTaskDueDate(String name, String newDate) throws ParseException {
+        Date date = new SimpleDateFormat("yyyy MM dd").parse(newDate);
+        this.myTasks.stream().filter(myTasks->name.equals(myTasks.getName()))
+                .collect(Collectors.toList()).forEach(mytask->mytask.setDate(date));
+    }
+
+    public void changeStatus(String name) {
+        this.myTasks.stream().filter(myTasks->name.equals(myTasks.getName()))
+                .collect(Collectors.toList()).forEach(mytask->mytask.setStatus());
     }
 }

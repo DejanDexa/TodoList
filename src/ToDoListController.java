@@ -10,47 +10,45 @@ import Model.Task;
 import Model.ToDoList;
 
 public class ToDoListController implements Serializable{
-    private static ToDoList myTask = new ToDoList();
+
+    private static final String regexMenu = "[0-6-]+";
+    private static final String regexSubMenu="[0-5-]+";
+    private static final String TASK_NAME ="task name";
+    private static final String SHORT_DESCRIPTION ="short description";
+    private static final String CATEGORY ="category";
+    private static final String DUE_DATE ="due date";
+    private static final String STATUS="status";
+    private ToDoList myTask = new ToDoList();
     private ToDoList todoList;
     private String file;
 
     public ToDoListController(ToDoList todoList, String file){
-        this.todoList=todoList;
+        this.myTask=todoList;
         this.file=file;
     }
 
-    private static void addNewTask(Scanner scanner) throws ParseException {
-        askUserToInsertData("new task name");
-        String name = scanner.nextLine();
-        askUserToInsertData("short description");
-        String description = scanner.nextLine();
-        askUserToInsertData("category");
-        String category = scanner.nextLine();
-        askUserToInsertData("due date");
-        String dueDate = scanner.nextLine();
-        Date date = new SimpleDateFormat("yyyy MM dd").parse(dueDate); // TODO localdate
-
-        boolean status = false;
-
-        String details = "";
-        if (!status) {
-            details = "In progress";
-            //System.out.println("In progress");
-        } else {
-            details = "Done";
-            //System.out.println("Done");
-        }
+    private void addNewTask(Scanner scanner) throws ParseException {
+        String name = askAndReadChoice(TASK_NAME, scanner);
+        String description = askAndReadChoice(SHORT_DESCRIPTION,scanner);
+        String category = askAndReadChoice(CATEGORY,scanner);
+        String dueDate = askAndReadChoice(DUE_DATE,scanner);
+        Date date = new SimpleDateFormat("yyyy MM dd").parse(dueDate);
 
 
-        Task newTask = Task.createTask(name, description, category, date, details);
+        Task newTask = new Task(name, description, category, date);
         if (myTask.addNewTask(newTask)) {
-            System.out.println("New task added: \nname = " + name + ", \ndescription = " + description + ", \ncategory = " + category + ", \ndate = " + date + ", \nstatus = " + details);
+            System.out.println("New task added: \nname = " + name + ", \ndescription = " + description + ", \ncategory = " + category + ", \ndate = " + date + ", \nstatus = " +newTask.getStatusToString());
         } else {
             System.out.println("Cannot add, " + name + " already on file");
         }
     }
 
-    private static void askUserToInsertData(String param) {
+    private String askAndReadChoice(String param, Scanner scanner) {
+        askUserToInsertData(param);
+        return scanner.nextLine();
+    }
+
+    private void askUserToInsertData(String param) {
         System.out.println("Enter "+param+": ");
     }
 
@@ -74,6 +72,17 @@ public class ToDoListController implements Serializable{
                 "4  - to remove an existing task\n" +
                 "5  - query if an existing task exists\n" +
                 "6  - to print a list of available actions.");
+        System.out.println("Choose your action: ");
+    }
+
+    public void printUpdateMenu(){
+        System.out.println("\nAvailable actions:\npress");
+        System.out.println("0  - to exit update\n" +
+                "1  - to edit name\n" +
+                "2  - to edit description\n" +
+                "3  - to edit category\n" +
+                "4  - to change date\n" +
+                "5  - to edit status.");
         System.out.println("Choose your action: ");
     }
 
@@ -108,76 +117,59 @@ public class ToDoListController implements Serializable{
         boolean quit = false;
         while (!quit) {
 
-            //toDo create an Action interface or class or method where user can choose a valid action
-
             System.out.println("\nEnter action: (press 6 to show all available actions)");
             String input = scanner.nextLine();
             int action = 6;
-            //if (input.matches("[a-zA-Z-789-]+")) {
-            if (input.matches("[0-6-]+")) {
-                //System.out.println("That's not a valid action! Please pick option from the main menu");
+
+            if (input.matches(regexMenu)) {
                 action = Integer.parseInt(input);
             } else {
-                //action = Integer.parseInt(input);
                 System.out.println("That's not a valid action! Please pick an option from the main menu");
             }
-
-
             switch (action) {
                 case 0:
-                    //save to file....?
                     saveToFile(file);
                     System.out.println("\nExit...");
-                    //quit = true;
+                    quit = true;
                     break;
-
                 case 1:
                     myTask.printTasks();
                     break;
-
                 case 2:
                     addNewTask(scanner);
                     break;
-
-                /*case 3:
+                case 3:
                     updateTask(scanner);
-                    break;*/
-
+                    break;
                 case 4:
                     removeTask(scanner);
                     break;
-
                 case 5:
                     queryTask(scanner);
                     break;
-
                 case 6:
                     this.printMenu();
                     break;
-
                 default:
                     System.out.println("That's not a valid action! Please pick option from the main menu");
                     this.printMenu();
             }
-
         }
     }
-    private static void queryTask(Scanner scanner) {
-        System.out.println("Enter existing task name: ");
-        String name = scanner.nextLine();
-        Task existingTaskRecord = myTask.queryTask(name);
+
+    private void queryTask(Scanner scanner) {
+        String name = askAndReadChoice(TASK_NAME,scanner);
+        Task existingTaskRecord=myTask.findExistingTask(name);
+        //Task existingTaskRecord = myTask.queryTask(name);
         if (existingTaskRecord == null) {
             System.out.println("Task not found.");
             return;
         }
-        System.out.println("Name: " + existingTaskRecord.getName() +
-                " Description: " + existingTaskRecord.getDescription() +
-                " Category: " + existingTaskRecord.getCategory() +
-                " Due date: " + existingTaskRecord.getDueDate() +
-                " Status: " + existingTaskRecord.getStatus());
+        existingTaskRecord.PrintTask(existingTaskRecord);
     }
 
-    private static void removeTask(Scanner scanner) {
+
+    private void removeTask(Scanner scanner) {
         System.out.println("Enter existing task name: ");
         String name = scanner.nextLine();
         Task existingTaskRecord = myTask.queryTask(name);
@@ -190,6 +182,52 @@ public class ToDoListController implements Serializable{
             System.out.println("Successfully deleted");
         } else {
             System.out.println("Error deleting task");
+        }
+    }
+
+    private void updateTask(Scanner scanner) throws ParseException {
+        System.out.println("Enter existing task name: ");
+        String name = scanner.nextLine();
+        Task existingTaskRecord = myTask.findExistingTask(name);
+        if (existingTaskRecord == null) {
+            System.out.println("Task not found.");
+            return;
+        }
+        int subActions=5;
+        printUpdateMenu();
+        String input = scanner.nextLine();
+        if (input.matches(regexMenu)) {
+            subActions = Integer.parseInt(input);
+        } else {
+            System.out.println("That's not a valid action! Please pick an option from the edit menu");
+        }
+        switch (subActions) {
+            case 0:
+                printMenu();
+                performActions(scanner);
+                break;
+            case 1:
+                String newName=askAndReadChoice(TASK_NAME,scanner);
+                myTask.changeTaskName(existingTaskRecord.getName(),newName);
+                break;
+            case 2:
+                String newDescription=askAndReadChoice(SHORT_DESCRIPTION,scanner);
+                myTask.changeTaskDescription(existingTaskRecord.getName(),newDescription);
+                break;
+            case 3:
+                String newCategory=askAndReadChoice(CATEGORY,scanner);
+                myTask.changeTaskCategory(existingTaskRecord.getName(),newCategory);
+                break;
+            case 4:
+                String newDate=askAndReadChoice(DUE_DATE,scanner);
+                myTask.changeTaskDueDate(existingTaskRecord.getName(),newDate);
+                break;
+            case 5:
+                myTask.changeStatus(existingTaskRecord.getName());
+                break;
+            default:
+                System.out.println("That's not a valid action! Please pick option from the main menu");
+                this.printUpdateMenu();;
         }
     }
 }
