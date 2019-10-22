@@ -85,6 +85,15 @@ public class ToDoListController implements Serializable{
                 "5  - to edit status.");
         System.out.println("Choose your action: ");
     }
+    public void printSortingMenuOptions(){
+        System.out.println("\nAvailable actions:\npress");
+        System.out.println("0  - no sorting\n" +
+                "1  - sort by project Ascending\n" +
+                "2  - sort by project Descending\n" +
+                "3  - sort by date Ascending\n" +
+                "4  - sort by date Descending");
+        System.out.println("Choose your action: ");
+    }
 
     public void readFromFile(String fileLocation) {
         Path destination = Paths.get(fileLocation);
@@ -133,7 +142,8 @@ public class ToDoListController implements Serializable{
                     quit = true;
                     break;
                 case 1:
-                    myTask.printTasks();
+                    printTaskListOrdered(scanner);
+                    //myTask.printTasks();
                     break;
                 case 2:
                     addNewTask(scanner);
@@ -155,6 +165,34 @@ public class ToDoListController implements Serializable{
                     this.printMenu();
             }
         }
+    }
+
+    private void printTaskListOrdered(Scanner scanner){
+        System.out.println("Choose sorting by: ");
+        printSortingMenuOptions();
+        String input=scanner.nextLine();
+        int action=Integer.parseInt(input);
+        switch (action) {
+            case 0:
+                myTask.printTasks();
+                break;
+            case 1:
+                myTask.printTaskListSortedByProjectAsc();
+                break;
+            case 2:
+                myTask.printTaskListSortedByProjectDsc();
+                break;
+            case 3:
+                myTask.printTaskListSortedByDateAsc();
+                break;
+            case 4:
+                myTask.printTaskListSortedByDateDsc();
+                break;
+            default:
+                System.out.println("That's not a valid action! Please pick option from the main menu");
+                this.printMenu();
+        }
+
     }
 
     private void queryTask(Scanner scanner) {

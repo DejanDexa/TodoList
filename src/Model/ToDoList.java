@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ToDoList implements Serializable {
+import static java.util.stream.Collectors.toList;
+
+public class ToDoList implements Serializable{
     /** ArrayList of Task store tasks records */
     //private String myList;
     /** ArrayList of Task store tasks records */
@@ -66,32 +69,61 @@ public class ToDoList implements Serializable {
 
     public void changeTaskName(String oldName, String newName) {
         this.myTasks.stream().filter(myTasks->oldName.equals(myTasks.getName()))
-                .collect(Collectors.toList()).forEach(mytask->mytask.setName(newName));
+                .collect(toList()).forEach(mytask->mytask.setName(newName));
     }
 
     public void changeTaskDescription(String name, String newDescription){
         this.myTasks.stream().filter(myTasks->name.equals(myTasks.getName()))
-                .collect(Collectors.toList()).forEach(mytask->mytask.setDescription(newDescription));
+                .collect(toList()).forEach(mytask->mytask.setDescription(newDescription));
     }
 
     public void changeTaskCategory(String name, String newCategory) {
         this.myTasks.stream().filter(myTasks->name.equals(myTasks.getName()))
-                .collect(Collectors.toList()).forEach(mytask->mytask.setCategory(newCategory));
+                .collect(toList()).forEach(mytask->mytask.setCategory(newCategory));
     }
 
     public void changeTaskDueDate(String name, String newDate) throws ParseException {
         Date date = new SimpleDateFormat("yyyy MM dd").parse(newDate);
         this.myTasks.stream().filter(myTasks->name.equals(myTasks.getName()))
-                .collect(Collectors.toList()).forEach(mytask->mytask.setDate(date));
+                .collect(toList()).forEach(mytask->mytask.setDate(date));
     }
 
     public void changeStatus(String name) {
         this.myTasks.stream().filter(myTasks->name.equals(myTasks.getName()))
-                .collect(Collectors.toList()).forEach(mytask->mytask.setStatus());
+                .collect(toList()).forEach(mytask->mytask.setStatus());
     }
 
     public void removeTaskByName(String taskName) {
         this.myTasks.removeIf(mytask->taskName.equals(mytask.getName()));
         //todo add handled in case task doesn exist
+    }
+
+
+    public void printTaskListSortedByProjectAsc() {
+        List<Task> sortedList = this.myTasks.stream()
+                .sorted(Comparator.comparing(Task::getCategory))
+                .collect(Collectors.toList());
+        sortedList.stream().forEach(task -> System.out.println(task.toString()));
+    }
+
+    public void printTaskListSortedByProjectDsc() {
+        List<Task> sortedList = this.myTasks.stream()
+                .sorted(Comparator.comparing(Task::getCategory).reversed())
+                .collect(Collectors.toList());
+        sortedList.stream().forEach(task -> System.out.println(task.toString()));
+    }
+
+    public void printTaskListSortedByDateAsc() {
+        List<Task> sortedList = this.myTasks.stream()
+                .sorted(Comparator.comparing(Task::getDueDate))
+                .collect(Collectors.toList());
+        sortedList.stream().forEach(task -> System.out.println(task.toString()));
+    }
+
+    public void printTaskListSortedByDateDsc() {
+        List<Task> sortedList = this.myTasks.stream()
+                .sorted(Comparator.comparing(Task::getDueDate).reversed())
+                .collect(Collectors.toList());
+        sortedList.stream().forEach(task -> System.out.println(task.toString()));
     }
 }

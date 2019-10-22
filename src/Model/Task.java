@@ -1,13 +1,8 @@
 package Model;
 
-import com.sun.tools.javac.Main;
-
-import java.io.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
 
-public class Task implements Serializable {
+public class Task implements Comparable<Task>{
     private String name;
     private String description;
     private String category;
@@ -82,6 +77,26 @@ public class Task implements Serializable {
             this.status=false;
         else this.status=true;
         return this;
+    }
+
+    @Override
+    public int compareTo(Task o) {
+        if (!this.name.equalsIgnoreCase(o.name))
+            return this.name.compareTo(o.name);
+        if (!this.dueDate.equals(o.dueDate))
+            return this.dueDate.compareTo(o.dueDate);
+        return 0;
+    }
+
+    @Override
+    public String toString(){
+            System.out.println("Task List");
+                return this.name +" - " +
+                        this.description+ " - " +
+                        this.category + " - " +
+                        this.dueDate + " - " +
+                        this.status;
+
     }
 }
 
