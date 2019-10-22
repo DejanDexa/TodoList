@@ -168,21 +168,9 @@ public class ToDoListController implements Serializable{
         existingTaskRecord.PrintTask(existingTaskRecord);
     }
 
-
-    private void removeTask(Scanner scanner) {
-        System.out.println("Enter existing task name: ");
-        String name = scanner.nextLine();
-        Task existingTaskRecord = myTask.queryTask(name);
-        if (existingTaskRecord == null) {
-            System.out.println("Task not found.");
-            return;
-        }
-
-        if (myTask.removeTask(existingTaskRecord)) {
-            System.out.println("Successfully deleted");
-        } else {
-            System.out.println("Error deleting task");
-        }
+    private void removeTask(Scanner scanner){
+        String name = askAndReadChoice(TASK_NAME, scanner);
+        myTask.removeTaskByName(name);
     }
 
     private void updateTask(Scanner scanner) throws ParseException {

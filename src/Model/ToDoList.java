@@ -36,20 +36,6 @@ public class ToDoList implements Serializable {
         return true;
     }
 
-    public boolean removeTask(Task task) {
-        int foundPosition = findTask(task);
-        if(foundPosition <0) {
-            System.out.println(task.getName() +", was not found.");
-            return false;
-        }
-        this.myTasks.remove(foundPosition);
-        System.out.println(task.getName() + ", was deleted.");
-        return true;
-    }
-
-    private int findTask(Task task) {
-        return this.myTasks.indexOf(task);
-    }
 
     private int findTask(String taskName) {
         for(int i=0; i<this.myTasks.size(); i++) {
@@ -61,13 +47,6 @@ public class ToDoList implements Serializable {
         return -1;
     }
 
-    public Task queryTask(String name) {
-        int position = findTask(name);
-        if(position >=0) {
-            return this.myTasks.get(position);
-        }
-        return null;
-    }
 
     public void printTasks() {
         System.out.println("Task List");
@@ -109,5 +88,10 @@ public class ToDoList implements Serializable {
     public void changeStatus(String name) {
         this.myTasks.stream().filter(myTasks->name.equals(myTasks.getName()))
                 .collect(Collectors.toList()).forEach(mytask->mytask.setStatus());
+    }
+
+    public void removeTaskByName(String taskName) {
+        this.myTasks.removeIf(mytask->taskName.equals(mytask.getName()));
+        //todo add handled in case task doesn exist
     }
 }
