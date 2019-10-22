@@ -29,12 +29,12 @@ public class Task implements Comparable<Task>, Serializable {
     public LocalDate getDueDate() { return dueDate; }
 
     public boolean getStatus() { return status; }
-
     /**
      * Method Task - Create a new task record
      * instead of having to parse the parameters for the fields, create a task record without creating new separate object
      * Calling the constructor to create new task record, and return new task record
      */
+
     public Task createTask(String name, String description, String category, LocalDate dueDate) {
         return new Task(name, description, category, dueDate);
     }
