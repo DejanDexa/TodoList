@@ -3,6 +3,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -32,7 +35,16 @@ public class ToDoListController implements Serializable{
         String description = askAndReadChoice(SHORT_DESCRIPTION,scanner);
         String category = askAndReadChoice(CATEGORY,scanner);
         String dueDate = askAndReadChoice(DUE_DATE,scanner);
-        Date date = new SimpleDateFormat("yyyy MM dd").parse(dueDate);
+        LocalDate date;
+        try {
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern("yyyy M d");
+            date = LocalDate.parse(dueDate, formatter);
+        }
+        catch (DateTimeParseException exc) {
+            System.out.printf("%s is not parsable!%n", dueDate);
+            throw exc;      // Rethrow the exception.
+        }
 
 
         Task newTask = new Task(name, description, category, date);
