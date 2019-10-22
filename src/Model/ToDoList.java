@@ -3,6 +3,9 @@ package Model;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -83,7 +86,16 @@ public class ToDoList implements Serializable{
     }
 
     public void changeTaskDueDate(String name, String newDate) throws ParseException {
-        Date date = new SimpleDateFormat("yyyy MM dd").parse(newDate);
+        LocalDate date;
+        try {
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern("MMM d yyyy");
+            date = LocalDate.parse(newDate, formatter);
+        }
+        catch (DateTimeParseException exc) {
+            System.out.printf("%s is not parsable!%n", newDate);
+            throw exc;      // Rethrow the exception.
+        }
         this.myTasks.stream().filter(myTasks->name.equals(myTasks.getName()))
                 .collect(toList()).forEach(mytask->mytask.setDate(date));
     }
@@ -124,6 +136,8 @@ public class ToDoList implements Serializable{
         List<Task> sortedList = this.myTasks.stream()
                 .sorted(Comparator.comparing(Task::getDueDate).reversed())
                 .collect(Collectors.toList());
-        sortedList.stream().forEach(task -> System.out.println(task.toString()));
+        sortedList.stream().forEach(task -> System.out.println(task.parseStatusForTask()));
     }
+
+
 }

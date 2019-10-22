@@ -1,16 +1,18 @@
 package Model;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
-public class Task implements Comparable<Task>{
+public class Task implements Comparable<Task>, Serializable {
     private String name;
     private String description;
     private String category;
-    private Date dueDate;
+    private LocalDate dueDate;
     private boolean status;
 
     /** Constructor */
-    public Task(String name, String description, String category, Date dueDate) {
+    public Task(String name, String description, String category, LocalDate dueDate) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -25,7 +27,7 @@ public class Task implements Comparable<Task>{
 
     public String getCategory() { return category; }
 
-    public Date getDueDate() { return dueDate; }
+    public LocalDate getDueDate() { return dueDate; }
 
     public boolean getStatus() { return status; }
 
@@ -34,7 +36,7 @@ public class Task implements Comparable<Task>{
      * instead of having to parse the parameters for the fields, create a task record without creating new separate object
      * Calling the constructor to create new task record, and return new task record
      */
-    public Task createTask(String name, String description, String category, Date dueDate) {
+    public Task createTask(String name, String description, String category, LocalDate dueDate) {
         return new Task(name, description, category, dueDate);
     }
 
@@ -67,7 +69,7 @@ public class Task implements Comparable<Task>{
         return this;
     }
 
-    public Task setDate(Date newDate) {
+    public Task setDate(LocalDate newDate) {
         this.dueDate=newDate;
         return this;
     }
@@ -97,6 +99,12 @@ public class Task implements Comparable<Task>{
                         this.dueDate + " - " +
                         this.status;
 
+    }
+
+    public String parseStatusForTask(){
+        if (this.getStatus()==false)
+        return this.toString().replace("false", "In Progress");
+        else return this.toString().replace("true", "Done");
     }
 }
 
