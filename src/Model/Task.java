@@ -105,5 +105,22 @@ public class Task implements Comparable<Task>, Serializable {
         return this.toString().replace("false", "In Progress");
         else return this.toString().replace("true", "Done");
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+        Task task = (Task) o;
+        return getStatus() == task.getStatus() &&
+                getName().equals(task.getName()) &&
+                getDescription().equals(task.getDescription()) &&
+                getCategory().equals(task.getCategory()) &&
+                getDueDate().equals(task.getDueDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }
 
