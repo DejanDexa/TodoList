@@ -15,6 +15,7 @@ public class ToDoListController implements Serializable {
     private String file;
     private ScreenPrint sp = new ScreenPrint();
     private FileManipulation fm = new FileManipulation();
+    private Scanner scanner = new Scanner(System.in);
 
     public ToDoListController(ToDoList todoList, String file) {
         this.toDoList = todoList;
@@ -29,7 +30,7 @@ public class ToDoListController implements Serializable {
         sp.printMenu();
     }
 
-    public void performActions(Scanner scanner) throws ParseException {
+    public void performActions() {
         boolean quit = false;
         while (!quit) {
 
