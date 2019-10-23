@@ -1,19 +1,25 @@
 package Utils;
 
-public class ScreenPrint {
+import java.io.Serializable;
 
-    public void printStartApplication(){
+public class ScreenPrint implements Serializable {
+
+    public void printStartApplication(int totalNumberOfTasks, int toDoTask){
         System.out.println("###################################################");
-        System.out.println("##                                       \\O      ##");
-        System.out.println("##              Welcome to ToDoLy!        |\\     ##");
-        System.out.println("##                                       / \\     ##");
+        System.out.println("##    _______                                    ##");
+        System.out.println("##   | To-Do |                          \\O       ##");
+        System.out.println("##   |>_____ |    Welcome to ToDoLy!     |\\      ##");
+        System.out.println("##   |>_____ |                          / \\      ##");
+        System.out.println("##   |_______|                                   ##");
+        System.out.println("##                                               ##");
         System.out.println("###################################################");
-        System.out.println("\n>> You have X tasks todo and Y tasks are done! <<");
-        System.out.println("\n-> Please pick an option from the Main Menu:");
+        System.out.println("\n>> You have "+toDoTask+" tasks todo and "+totalNumberOfTasks+" tasks are done! <<");
+        System.out.println("«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»");
+        System.out.println("\n\n-> Please pick an option from the Main Menu:");
     }
 
     public void printMenu(){
-        System.out.println("\nAvailable actions:\npress");
+        System.out.println("\nAvailable actions press:");
         System.out.println("0  - to quit\n" +
                 "1  - to show a list of existing tasks\n" +
                 "2  - to add a new task\n" +

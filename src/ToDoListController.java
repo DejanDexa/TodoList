@@ -22,8 +22,10 @@ public class ToDoListController implements Serializable {
     }
 
     public void startTodoList(String filename) {
-        fm.readFromFile(filename, toDoList);
-        sp.printStartApplication();
+        toDoList = fm.readFromFile(filename, toDoList);
+        int toDoTask=toDoList.getNumberOfToDos();
+        int totalNumberOfTasks=toDoList.getSize();
+        sp.printStartApplication(totalNumberOfTasks-toDoTask, toDoTask);
         sp.printMenu();
     }
 

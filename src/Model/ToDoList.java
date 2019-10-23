@@ -262,4 +262,12 @@ public class ToDoList implements Serializable{
                 sp.printMenu();
         }
     }
+
+    public int getNumberOfToDos() {
+        return this.myTasks.stream().filter(task->task.getStatus()==false).collect(Collectors.toList()).size();
+    }
+
+    public int getSize() {
+        return this.myTasks.size();
+    }
 }
