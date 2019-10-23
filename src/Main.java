@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main implements Serializable{
 
     public static ToDoList myTask = new ToDoList();
-    static String fileName = "..\\Data\\todo.md";
+    static String fileName = "Data/todo.md";
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException, InterruptedException, ParseException {

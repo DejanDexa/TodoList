@@ -6,13 +6,14 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class FileManipulation {
+public class FileManipulation implements Serializable{
 
     public ToDoList readFromFile(String fileLocation, ToDoList myTask) {
         Path destination = Paths.get(fileLocation);
         try {
             File file = destination.toFile();
             if (file.exists()) {
+
                 ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
                 myTask = (ToDoList) is.readObject();
                 is.close();
