@@ -35,10 +35,6 @@ public class Task implements Comparable<Task>, Serializable {
      * Calling the constructor to create new task record, and return new task record
      */
 
-   /* public Task createTask(String name, String description, String category, LocalDate dueDate) {
-        return new Task(name, description, category, dueDate);
-    }*/
-
     public String getStatusToString(){
         if (this.status==false)return "In Progress";
         else return "Done";

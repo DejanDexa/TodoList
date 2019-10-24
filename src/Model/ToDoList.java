@@ -338,6 +338,4 @@ public class ToDoList implements Serializable {
     public int getSize() {
         return this.myTasks.size();
     }
-
-
 }

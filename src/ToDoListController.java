@@ -1,5 +1,4 @@
 import java.io.*;
-import java.text.ParseException;
 import java.util.Scanner;
 
 import Constants.EnvConstant;
@@ -8,8 +7,6 @@ import Utils.FileManipulation;
 import Utils.ScreenPrint;
 
 public class ToDoListController implements Serializable {
-
-    private static final String regexSubMenu = "[0-5-]+";
 
     private ToDoList toDoList;
     private String file;
