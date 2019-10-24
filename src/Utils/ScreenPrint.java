@@ -15,12 +15,13 @@ public class ScreenPrint implements Serializable {
         System.out.println("###################################################");
         System.out.println("\n>> You have "+toDoTask+" tasks todo and "+totalNumberOfTasks+" tasks are done! <<");
         System.out.println("«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»");
-        System.out.println("\n\n-> Please pick an option from the Main Menu:");
+        System.out.println("\nPlease pick an option from the Main Menu\n");
+        System.out.println("                ⥥⥥⥥                    ");
     }
 
     public void printMenu(){
         System.out.println("\nAvailable actions press:");
-        System.out.println("0  - to quit\n" +
+        System.out.println("0  - to save and quit\n" +
                 "1  - to show a list of existing tasks\n" +
                 "2  - to add a new task\n" +
                 "3  - to update an existing task\n" +
@@ -31,18 +32,18 @@ public class ScreenPrint implements Serializable {
     }
 
     public void printUpdateMenu(){
-        System.out.println("\nAvailable actions:\npress");
+        System.out.println("\nAvailable actions press:");
         System.out.println("0  - to exit update\n" +
                 "1  - to edit name\n" +
                 "2  - to edit description\n" +
-                "3  - to edit category\n" +
+                "3  - to edit project\n" +
                 "4  - to change date\n" +
                 "5  - to edit status.");
         System.out.println("Choose your action: ");
     }
 
     public void printSortingMenuOptions(){
-        System.out.println("\nAvailable actions:\npress");
+        System.out.println("\nAvailable actions press:");
         System.out.println("0  - no sorting\n" +
                 "1  - sort by project Ascending\n" +
                 "2  - sort by project Descending\n" +

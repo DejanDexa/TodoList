@@ -6,37 +6,43 @@ import java.time.LocalDate;
 public class Task implements Comparable<Task>, Serializable {
     private String name;
     private String description;
-    private String category;
+    private String project;
     private LocalDate dueDate;
     private boolean status;
 
-    /** Constructor */
-    public Task(String name, String description, String category, LocalDate dueDate) {
+
+    public Task(String name, String description, String project, LocalDate dueDate) {
         this.name = name;
         this.description = description;
-        this.category = category;
+        this.project = project;
         this.dueDate = dueDate;
         this.status = false;
     }
 
-    /** Getters */
-    public String getName() { return name; }
 
-    public String getDescription() { return description; }
+    public String getName() {
+        return name;
+    }
 
-    public String getCategory() { return category; }
+    public String getDescription() {
+        return description;
+    }
 
-    public LocalDate getDueDate() { return dueDate; }
+    public String getProject() {
+        return project;
+    }
 
-    public boolean getStatus() { return status; }
-    /**
-     * Method Task - Create a new task record
-     * instead of having to parse the parameters for the fields, create a task record without creating new separate object
-     * Calling the constructor to create new task record, and return new task record
-     */
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
 
-    public String getStatusToString(){
-        if (this.status==false)return "In Progress";
+    public boolean getStatus() {
+        return status;
+    }
+
+
+    public String getStatusToString() {
+        if (this.status == false) return "In Progress";
         else return "Done";
     }
 
@@ -44,35 +50,35 @@ public class Task implements Comparable<Task>, Serializable {
     public void PrintTask(Task existingTaskRecord) {
         System.out.println("Name: " + existingTaskRecord.getName() +
                 " Description: " + existingTaskRecord.getDescription() +
-                " Category: " + existingTaskRecord.getCategory() +
+                " Category: " + existingTaskRecord.getProject() +
                 " Due date: " + existingTaskRecord.getDueDate() +
                 " Status: " + existingTaskRecord.getStatusToString());
     }
 
     public Task setName(String newName) {
-        this.name=newName;
+        this.name = newName;
         return this;
     }
 
     public Task setDescription(String newDescription) {
-        this.description=newDescription;
+        this.description = newDescription;
         return this;
     }
 
-    public Task setCategory(String newCategory) {
-        this.category=newCategory;
+    public Task setProject(String newCategory) {
+        this.project = newCategory;
         return this;
     }
 
     public Task setDate(LocalDate newDate) {
-        this.dueDate=newDate;
+        this.dueDate = newDate;
         return this;
     }
 
     public Task setStatus() {
-        if(this.status==true)
-            this.status=false;
-        else this.status=true;
+        if (this.status == true)
+            this.status = false;
+        else this.status = true;
         return this;
     }
 
@@ -86,19 +92,18 @@ public class Task implements Comparable<Task>, Serializable {
     }
 
     @Override
-    public String toString(){
-            System.out.println("Task List");
-                return this.name +" - " +
-                        this.description+ " - " +
-                        this.category + " - " +
-                        this.dueDate + " - " +
-                        this.status;
+    public String toString() {
+        return this.name + " - " +
+                this.description + " - " +
+                this.project + " - " +
+                this.dueDate + " - " +
+                this.status;
 
     }
 
-    public String parseStatusForTask(){
-        if (this.getStatus()==false)
-        return this.toString().replace("false", "In Progress");
+    public String parseStatusForTask() {
+        if (this.getStatus() == false)
+            return this.toString().replace("false", "In Progress");
         else return this.toString().replace("true", "Done");
     }
 
@@ -110,7 +115,7 @@ public class Task implements Comparable<Task>, Serializable {
         return getStatus() == task.getStatus() &&
                 getName().equals(task.getName()) &&
                 getDescription().equals(task.getDescription()) &&
-                getCategory().equals(task.getCategory()) &&
+                getProject().equals(task.getProject()) &&
                 getDueDate().equals(task.getDueDate());
     }
 

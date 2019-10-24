@@ -6,7 +6,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class FileManipulation implements Serializable{
+public class FileManipulation implements Serializable {
 
     public ToDoList readFromFile(String fileLocation, ToDoList myTask) {
         Path destination = Paths.get(fileLocation);

@@ -6,7 +6,6 @@ import Utils.ScreenPrint;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,12 +74,11 @@ public class ToDoList implements Serializable {
     }
 
     public void printTasks() {
-        System.out.println("Task List");
         for (int i = 0; i < this.myTasks.size(); i++) {
             System.out.println((i + 1) + "." +
                     this.myTasks.get(i).getName() + " - " +
                     this.myTasks.get(i).getDescription() + " - " +
-                    this.myTasks.get(i).getCategory() + " - " +
+                    this.myTasks.get(i).getProject() + " - " +
                     this.myTasks.get(i).getDueDate() + " - " +
                     this.myTasks.get(i).getStatusToString());
         }
@@ -92,12 +90,12 @@ public class ToDoList implements Serializable {
     public ToDoList addNewTask(Scanner scanner) {
         String name = askAndReadChoice(EnvConstant.TASK_NAME, scanner);
         String description = askAndReadChoice(EnvConstant.SHORT_DESCRIPTION, scanner);
-        String category = askAndReadChoice(EnvConstant.CATEGORY, scanner);
+        String project = askAndReadChoice(EnvConstant.PROJECT, scanner);
         boolean isValidDate = false;
         LocalDate date = null;
         while (!isValidDate) {
             String dueDate = askAndReadChoice(EnvConstant.DUE_DATE, scanner);
-            String regex = "\\d{4}\\s([1-9]|1[012])\\s([1-9]|[12][0-9]|3[01])$";
+            String regex = "^\\d{4}\\s([1-9]|1[012])\\s([1-9]|[12][0-9]|3[01])$";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(dueDate);
             if (matcher.matches()) {
@@ -106,11 +104,11 @@ public class ToDoList implements Serializable {
                 date = LocalDate.parse(dueDate, formatter);
                 isValidDate = true;
             } else
-                System.out.printf("%s is not parsable!%n", dueDate);
+                System.out.printf("%s is not correct date. Please enter in format yyyy m d.%n", dueDate);
         }
-        Task newTask = new Task(name, description, category, date);
+        Task newTask = new Task(name, description, project, date);
         if (this.addNewTask(newTask)) {
-            System.out.println("New task added: \nname = " + name + ", \ndescription = " + description + ", \ncategory = " + category + ", \ndate = " + date + ", \nstatus = " + newTask.getStatusToString());
+            System.out.println("New task added: \nname = " + name + ", \ndescription = " + description + ", \nproject = " + project + ", \ndate = " + date + ", \nstatus = " + newTask.getStatusToString());
         } else {
             System.out.println("Cannot add, " + name + " already on file");
         }
@@ -156,8 +154,8 @@ public class ToDoList implements Serializable {
                 this.changeTaskDescription(existingTaskRecord.getName(), newDescription);
                 break;
             case 3:
-                String newCategory = askAndReadChoice(EnvConstant.CATEGORY, scanner);
-                this.changeTaskCategory(existingTaskRecord.getName(), newCategory);
+                String newProject = askAndReadChoice(EnvConstant.PROJECT, scanner);
+                this.changeTaskCategory(existingTaskRecord.getName(), newProject);
                 break;
             case 4:
                 this.changeTaskDueDate(existingTaskRecord.getName(), scanner);
@@ -184,6 +182,7 @@ public class ToDoList implements Serializable {
     public void changeTaskName(String oldName, String newName) {
         this.myTasks.stream().filter(myTasks -> oldName.equals(myTasks.getName()))
                 .collect(toList()).forEach(mytask -> mytask.setName(newName));
+        System.out.println("Task Name successfully changed!");
     }
 
     /**
@@ -192,6 +191,7 @@ public class ToDoList implements Serializable {
     public void changeTaskDescription(String name, String newDescription) {
         this.myTasks.stream().filter(myTasks -> name.equals(myTasks.getName()))
                 .collect(toList()).forEach(mytask -> mytask.setDescription(newDescription));
+        System.out.println("Task description successfully changed!");
     }
 
     /**
@@ -199,7 +199,8 @@ public class ToDoList implements Serializable {
      **/
     public void changeTaskCategory(String name, String newCategory) {
         this.myTasks.stream().filter(myTasks -> name.equals(myTasks.getName()))
-                .collect(toList()).forEach(mytask -> mytask.setCategory(newCategory));
+                .collect(toList()).forEach(mytask -> mytask.setProject(newCategory));
+        System.out.println("Task Project successfully changed!");
     }
 
     /**
@@ -221,12 +222,12 @@ public class ToDoList implements Serializable {
                 LocalDate finalDate = date;
                 this.myTasks.stream().filter(myTasks -> name.equals(myTasks.getName()))
                         .collect(toList()).forEach(mytask -> mytask.setDate(finalDate));
+                System.out.println("Task due date successfully changed!");
             } else
-                System.out.printf("%s is not parsable!%n", dueDate);
+                System.out.printf("%s is not a valid date. It should be yyyy m d!%n", dueDate);
         }
         return this;
     }
-
 
     /**
      * method used for changing existing task status
@@ -240,9 +241,13 @@ public class ToDoList implements Serializable {
      * method used for removing existing task name
      **/
     public ToDoList removeTaskByName(String taskName) {
-        this.myTasks.removeIf(mytask -> taskName.equals(mytask.getName()));
+        if (findExistingTask(taskName)==null){
+            System.out.println("Task doesn't exist.");
+        }else {
+            this.myTasks.removeIf(mytask -> taskName.equals(mytask.getName()));
+            System.out.println("Task successfully removed!");
+        }
         return this;
-        //todo add handled in case task doesn exist
     }
 
     /**
@@ -250,7 +255,7 @@ public class ToDoList implements Serializable {
      **/
     public void printTaskListSortedByProjectAsc() {
         List<Task> sortedList = this.myTasks.stream()
-                .sorted(Comparator.comparing(Task::getCategory))
+                .sorted(Comparator.comparing(Task::getProject))
                 .collect(Collectors.toList());
         sortedList.stream().forEach(task -> System.out.println(task.parseStatusForTask()));
     }
@@ -260,7 +265,7 @@ public class ToDoList implements Serializable {
      **/
     public void printTaskListSortedByProjectDsc() {
         List<Task> sortedList = this.myTasks.stream()
-                .sorted(Comparator.comparing(Task::getCategory).reversed())
+                .sorted(Comparator.comparing(Task::getProject).reversed())
                 .collect(Collectors.toList());
         sortedList.stream().forEach(task -> System.out.println(task.parseStatusForTask()));
     }
