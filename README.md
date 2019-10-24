@@ -20,32 +20,32 @@ Ones the program run, a **Main menu** is shown as below:
 
 By typing one of the given options you can manipulate your tasks.
 ```python
-No.0 -> Save and Quit
+0. Save and Quit
 ``` 
 You can save the current task list to file and quit the application.
 ```python
-No.1 -> Show  a list of existing tasks
+1. Show  a list of existing tasks
 ```
-By entering choice **1** you are entering to the sub menu *listing tasks* where you can choose from the available options
+By entering choice *1* you are entering to the sub menu *listing tasks* where you can choose from the available options
 ```python
-No.2 -> Add a new task 
+2. Add a new task 
 ```
-By entering choice **2** you can create a new task record, by providing  *name* , *short description*, *project title* and *due date* for the particular task.
+By entering choice *2* you can create a new task record, by providing  *name* , *short description*, *project title* and *due date* for the particular task.
 
 Current requirement is that, *Due date* needs to be entered in specific format *yyyy M d*
 ```python
-No.3 -> Update an existing task 
+3. Update an existing task 
 ```
-By entering choice *No.3* you will be asked to provide a name of the task you want to edit. After typing existing name you are entering to the sub menu where you can choose from the available options, change *name*, *change description*, *change project*, *change due date*  or *change status*(which swaps between two states: In progress or Done)
+By entering choice *3* you will be asked to provide a name of the task you want to edit. After typing existing name you are entering to the sub menu where you can choose from the available options, change *name*, *change description*, *change project*, *change due date*  or *change status*(which swaps between two states: In progress or Done)
 ```python
-No.4 -> Remove an existing task
+4. Remove an existing task
 ```
-By entering choice *No.4* you can remove task from your list by providing a name of existing task. 
+By entering choice *4* you can remove task from your list by providing a name of existing task. 
 ```python
-No.5 -> Query if any existing task exist in your list
+5. Query if any existing task exist in your list
 ```
-By entering choice *No.5* you can find if task exist in your list by providing a name of a task. 
+By entering choice *5* you can find if task exist in your list by providing a name of a task. 
 ```python
-No.6 -> Print a list of available actions
+6. Print a list of available actions
 ```
-By entering choice *No.6* you can print the **Main menu**.
+By entering choice *6* you can print the **Main menu**.
