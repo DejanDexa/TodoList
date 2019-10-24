@@ -42,11 +42,6 @@ class ToDoListTest {
         Assertions.assertEquals(toDoList.removeTaskByName(taskName).getSize(),2);
     }
 
-
-    @Test
-    void findExistingTask() {
-    }
-
     @Test
     void changeTaskName() {
         ts=new TestHelper();
@@ -124,45 +119,5 @@ class ToDoListTest {
         ToDoList todoListExpected =new ToDoList(expectedTaskList);
 
         Assertions.assertEquals(todoListExpected.getMyTasks(),actual.getMyTasks());
-    }
-
-    @Test
-    void changeStatus() {
-    }
-
-    @Test
-    void removeTaskByName() {
-    }
-
-    @Test
-    void printTaskListSortedByProjectAsc() {
-    }
-
-    @Test
-    void printTaskListSortedByProjectDsc() {
-    }
-
-    @Test
-    void printTaskListSortedByDateAsc() {
-    }
-
-    @Test
-    void printTaskListSortedByDateDsc() {
-    }
-
-    @Test
-    void queryTask() {
-    }
-
-    @Test
-    void printTaskListOrdered() {
-    }
-
-    @Test
-    void getNumberOfToDos() {
-    }
-
-    @Test
-    void getSize() {
     }
 }
